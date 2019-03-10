@@ -7,12 +7,24 @@ void CopyString(char pcSource[], char pcDestination[])
 	{
 		pcDestination[ucLoopCounter] = pcSource[ucLoopCounter];
 	}
-	pcDestination[ucLoopCounter] = '\0';
+	pcDestination[ucLoopCounter+1] = '\0';
+}
+
+int iTestOf_CopyString()
+{
+	unsigned char ucLoopCounter;
+	char pcTestSource[] = "Test 1";
+	char pcTestDest[7];
+	//Test 1 sprawdza czy funkcja dobrze kopiuje stringi
+	CopyString(pcTestSource,pcTestDest);
+	for(ucLoopCounter=0;ucLoopCounter<8;ucLoopCounter++)
+	{
+		if (pcTestDest[ucLoopCounter] != pcTestSource[ucLoopCounter]) return 1;
+	}
+	return 0;
 }
 
 int main()
 {
-	char psSource[] = "Tekst testowy";
-	char psDestination[16];
-	CopyString(psSource, psDestination);
+	int wynik = iTestOf_CopyString();
 }
