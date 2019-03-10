@@ -46,8 +46,24 @@ int iTestOf_eCompareString()
 	if (eCompareString(pcTest1,pcTest2) == EQUAL) return 1;
 	return 0;
 }
+void AppendString (char pcSourceStr[],char pcDestinationStr[])
+{
+	unsigned char ucLoopCounter;
+	for(ucLoopCounter=0;pcDestinationStr[ucLoopCounter]!='\0';ucLoopCounter++) {}
+	CopyString(pcSourceStr,pcDestinationStr+ucLoopCounter);
+}
+
+int iTestOf_AppendString()
+{
+	char pcTestDest[] = "Test";
+	char pcTestSource[] = " 3";
+	char pcTestWynik[] = "Test 3";
+	AppendString(pcTestSource,pcTestDest);
+	if (eCompareString(pcTestDest,pcTestWynik) == DIFFERENT) return 1;
+	return 0;
+}
 
 int main()
 {
-	int wynik = iTestOf_eCompareString();
+	int wynik = iTestOf_AppendString();
 }
