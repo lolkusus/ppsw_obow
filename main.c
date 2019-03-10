@@ -63,7 +63,25 @@ int iTestOf_AppendString()
 	return 0;
 }
 
+void ReplaceCharactersInString(char pcString[],char cOldChar,char cNewChar)
+{
+	unsigned char ucLoopCounter;
+	for(ucLoopCounter=0;pcString[ucLoopCounter]!='\0';ucLoopCounter++)
+	{
+		if(pcString[ucLoopCounter] == cOldChar) pcString[ucLoopCounter] = cNewChar;
+	}
+}
+
+int iTestOf_ReplaceCharactersInString()
+{
+	char pcTestString[] = "Testowy String";
+	char pcTestWynik[] = "Tesxowy String";
+	ReplaceCharactersInString(pcTestString,'t','x');
+	if (eCompareString(pcTestString,pcTestWynik) == DIFFERENT) return 1;
+	return 0;
+}
+
 int main()
 {
-	int wynik = iTestOf_AppendString();
+	int wynik = iTestOf_ReplaceCharactersInString();
 }
