@@ -1,5 +1,7 @@
 #include <LPC21xx.H>
 
+#define HEX_bm 0x000F
+
 typedef enum CompResult 
 { DIFFERENT , EQUAL } CompResult;
 
@@ -30,7 +32,7 @@ int iTestOf_CopyString()
 CompResult eCompareString(char pcStr1[], char pcStr2[])
 {
 	unsigned char ucLoopCounter;
-	for(ucLoopCounter=0;ucLoopCounter<8;ucLoopCounter++)
+	for(ucLoopCounter=0;pcStr1[ucLoopCounter] != '\0';ucLoopCounter++)
 	{
 		if (pcStr1[ucLoopCounter] != pcStr2[ucLoopCounter]) return DIFFERENT;
 	}
@@ -41,7 +43,7 @@ int iTestOf_eCompareString()
 {
 	char pcTest1[] = "Test 1";
 	char pcTest2[] = "Tescik 2";
-	
+	//Test 2 sprawdza czy funkcja dobrze porownuje stringi
 	if (eCompareString(pcTest1,pcTest1) == DIFFERENT) return 1;
 	if (eCompareString(pcTest1,pcTest2) == EQUAL) return 1;
 	return 0;
@@ -58,6 +60,7 @@ int iTestOf_AppendString()
 	char pcTestDest[] = "Test";
 	char pcTestSource[] = " 3";
 	char pcTestWynik[] = "Test 3";
+	//Test 3 sprawdza czy funkcja dobrze dopisuje stringi
 	AppendString(pcTestSource,pcTestDest);
 	if (eCompareString(pcTestDest,pcTestWynik) == DIFFERENT) return 1;
 	return 0;
@@ -76,12 +79,39 @@ int iTestOf_ReplaceCharactersInString()
 {
 	char pcTestString[] = "Testowy String";
 	char pcTestWynik[] = "Tesxowy String";
+	//Test 4 sprawdza czy funkcja dobrze zamienia znaki
 	ReplaceCharactersInString(pcTestString,'t','x');
 	if (eCompareString(pcTestString,pcTestWynik) == DIFFERENT) return 1;
 	return 0;
 }
 
+void UIntToHexStr(unsigned int uiValue, char pcStr[])
+{
+	unsigned char ucLoopCounter;
+	unsigned char ucCurrentQuad;
+	pcStr[0] = '0';
+	pcStr[1] = 'x';
+	for(ucLoopCounter=0;ucLoopCounter<4;ucLoopCounter++)
+	{
+		ucCurrentQuad = ((uiValue >> ucLoopCounter*4) & HEX_bm);
+		if(ucCurrentQuad>9) pcStr[5-ucLoopCounter] = ucCurrentQuad - 10 + 'A';
+		else pcStr[5-ucLoopCounter] = ucCurrentQuad + '0';
+	}
+	pcStr[6] = '\0';
+}
+
+int iTestOf_UIntToHexStr()
+{
+	char pcString[7];
+	char pcTestString[7] = "0xAF19";
+	//Test 5 sprawdza czy funkcja dobrze zamienia na hex
+	UIntToHexStr(0xAF19,pcString);
+	if (eCompareString(pcString,pcTestString) == DIFFERENT) return 1;
+	return 0;
+}
+
 int main()
 {
-	int wynik = iTestOf_ReplaceCharactersInString();
+	int wynik;
+	wynik = iTestOf_UIntToHexStr();
 }
