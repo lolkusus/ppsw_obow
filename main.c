@@ -5,6 +5,9 @@
 typedef enum CompResult 
 { DIFFERENT , EQUAL } CompResult;
 
+typedef enum Result 
+{ OK, ERROR } Result;
+
 void CopyString(char pcSource[], char pcDestination[])
 {
 	unsigned char ucLoopCounter;
@@ -110,8 +113,34 @@ int iTestOf_UIntToHexStr()
 	return 0;
 }
 
+Result eHexStringToUInt(char pcStr[],unsigned int *puiValue)
+{
+	unsigned char ucLoopCounter;
+	if(pcStr[0] != '0') return ERROR;
+	if(pcStr[1] != 'x') return ERROR;
+	if(pcStr[2] == '\0') return ERROR;
+	*puiValue = 0;
+	for(ucLoopCounter=2;ucLoopCounter<7;ucLoopCounter++)
+	{
+		if(pcStr[ucLoopCounter] == '\0') return OK;
+	  *puiValue = *puiValue << 4;
+		if(pcStr[ucLoopCounter] >= 'A') *puiValue = *puiValue | (pcStr[ucLoopCounter] - 'A' + 10); 
+		else *puiValue = *puiValue | (pcStr[ucLoopCounter] - '0');
+	}
+	return OK;
+}
+
+int iTestOf_eHexStringToUInt()
+{
+	char liczba[] = "0xAB12";
+	unsigned int uiResult;
+	eHexStringToUInt(liczba,&uiResult);
+	if (uiResult != 0xAB12) return 1;
+	return 0;
+}
+
 int main()
 {
 	int wynik;
-	wynik = iTestOf_UIntToHexStr();
+	wynik = iTestOf_eHexStringToUInt();
 }
