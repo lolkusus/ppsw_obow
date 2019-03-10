@@ -15,7 +15,7 @@ void CopyString(char pcSource[], char pcDestination[])
 	{
 		pcDestination[ucLoopCounter] = pcSource[ucLoopCounter];
 	}
-	pcDestination[ucLoopCounter+1] = '\0';
+	pcDestination[ucLoopCounter] = '\0';
 }
 
 int iTestOf_CopyString()
@@ -139,8 +139,25 @@ int iTestOf_eHexStringToUInt()
 	return 0;
 }
 
+void AppendUIntToString (unsigned int uiValue, char pcDestinationStr[])
+{
+	unsigned char ucLoopCounter;
+	for(ucLoopCounter=0;pcDestinationStr[ucLoopCounter]!='\0';ucLoopCounter++) {}
+	pcDestinationStr[7] = 'g';
+	UIntToHexStr(uiValue,pcDestinationStr+ucLoopCounter);
+}
+
+int iTestOf_AppendUIntToString()
+{
+	unsigned int uiNumber = 0xAB12;
+	char pcString[14] = "Test 7 ";
+	char pcTestString[13] = "Test 7 0xAB12";
+	AppendUIntToString(uiNumber,pcString);
+	if (eCompareString(pcString,pcTestString) == DIFFERENT) return 1;
+	return 0;
+}
+
 int main()
 {
-	int wynik;
-	wynik = iTestOf_eHexStringToUInt();
+	int wynik = iTestOf_AppendUIntToString();
 }
