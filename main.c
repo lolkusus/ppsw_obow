@@ -1,5 +1,8 @@
 #include <LPC21xx.H>
 
+typedef enum CompResult 
+{ DIFFERENT , EQUAL } CompResult;
+
 void CopyString(char pcSource[], char pcDestination[])
 {
 	unsigned char ucLoopCounter;
@@ -24,7 +27,27 @@ int iTestOf_CopyString()
 	return 0;
 }
 
+CompResult eCompareString(char pcStr1[], char pcStr2[])
+{
+	unsigned char ucLoopCounter;
+	for(ucLoopCounter=0;ucLoopCounter<8;ucLoopCounter++)
+	{
+		if (pcStr1[ucLoopCounter] != pcStr2[ucLoopCounter]) return DIFFERENT;
+	}
+	return EQUAL;
+}
+
+int iTestOf_eCompareString()
+{
+	char pcTest1[] = "Test 1";
+	char pcTest2[] = "Tescik 2";
+	
+	if (eCompareString(pcTest1,pcTest1) == DIFFERENT) return 1;
+	if (eCompareString(pcTest1,pcTest2) == EQUAL) return 1;
+	return 0;
+}
+
 int main()
 {
-	int wynik = iTestOf_CopyString();
+	int wynik = iTestOf_eCompareString();
 }
