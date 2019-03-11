@@ -1,12 +1,51 @@
 #include <LPC21xx.H>
 
 #define HEX_bm 0x000F
+#define MAX_TOKEN_NR 3
+#define MAX_KEYWORD_STRING_LTH 10
+#define MAX_KEYWORD_NR 3
+
+unsigned char ucTokerNr;
 
 typedef enum CompResult 
 { DIFFERENT , EQUAL } CompResult;
 
 typedef enum Result 
 { OK, ERROR } Result;
+
+typedef enum TokenType 
+{KEYWORD, NUMBER, STRING} TokenType;
+
+typedef enum KeywordCode 
+{ LD, ST, RST} KeywordCode;
+
+typedef union TokenValue
+{
+enum KeywordCode eKeyword;
+unsigned int uiNumber;
+char *pcString; 
+} TokenValue;
+
+typedef struct Token
+{
+enum TokenType eType; 
+union TokenValue uValue; 
+} Token;
+
+struct Token asToken[MAX_TOKEN_NR];
+
+typedef struct Keyword
+{
+enum KeywordCode eCode;
+char cString[MAX_KEYWORD_STRING_LTH + 1];
+} Keyword;
+
+struct Keyword asKeywordList[MAX_KEYWORD_NR]= 
+{
+{RST,"reset"},
+{LD, "load" },
+{ST, "store"}
+};
 
 void CopyString(char pcSource[], char pcDestination[])
 {
@@ -134,6 +173,7 @@ int iTestOf_eHexStringToUInt()
 {
 	char liczba[] = "0xAB12";
 	unsigned int uiResult;
+	//Test 6 sprawdza czy funkcja dobrze zamienia hex na uint
 	eHexStringToUInt(liczba,&uiResult);
 	if (uiResult != 0xAB12) return 1;
 	return 0;
@@ -152,12 +192,68 @@ int iTestOf_AppendUIntToString()
 	unsigned int uiNumber = 0xAB12;
 	char pcString[14] = "Test 7 ";
 	char pcTestString[13] = "Test 7 0xAB12";
+	//Test 7 sprawdza czy funkcja dobrze dopisuje string (z hexa) na koniec stringa
 	AppendUIntToString(uiNumber,pcString);
 	if (eCompareString(pcString,pcTestString) == DIFFERENT) return 1;
 	return 0;
 }
 
+unsigned char ucFindTokensInString(char *pcString)
+{
+	unsigned char ucLoopCounter;
+	unsigned char ucDelimiterCounter;
+	char cCurrentChar;
+	enum State {TOKEN, DELIMITER};
+	enum State eState = DELIMITER;
+	ucDelimiterCounter = 0;
+	
+	for(ucLoopCounter=0;;ucLoopCounter++)
+	{
+		cCurrentChar = pcString[ucLoopCounter];
+		switch(eState)
+		{
+			case DELIMITER:
+				if(cCurrentChar == '\0') return ucDelimiterCounter;
+				else if(cCurrentChar == ' ') {}
+				else 
+				{
+					eState = TOKEN;
+					asToken[ucDelimiterCounter].uValue.pcString = pcString+ucLoopCounter;
+					ucDelimiterCounter++;
+				}
+				break;
+			case TOKEN:
+				if(cCurrentChar == '\0') return ucDelimiterCounter;
+				else if(ucDelimiterCounter == MAX_TOKEN_NR) return ucDelimiterCounter;
+				else if(cCurrentChar != ' ') {}
+				else eState = DELIMITER;
+				break;
+		}
+	}
+}
+
+int iTestOf_ucFindTokensInString()
+{
+	char test1[] = "            ";
+	char test2[] = "Token1 Token2";
+	char test3[] = "Token1     Token2";
+	unsigned char wynik;
+	
+	wynik = ucFindTokensInString(test1);
+	if (wynik != 0) return 1;
+	if (asToken[0].uValue.pcString != '\0') return 1;
+	
+	wynik = ucFindTokensInString(test2);
+	if (wynik != 2) return 1;
+
+	wynik = ucFindTokensInString(test3);
+	if (wynik != 2) return 1;
+	
+	return 0;
+}
+
 int main()
 {
-	int wynik = iTestOf_AppendUIntToString();
+	unsigned char wynik;
+	wynik = iTestOf_ucFindTokensInString();
 }
