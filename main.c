@@ -252,8 +252,43 @@ int iTestOf_ucFindTokensInString()
 	return 0;
 }
 
+enum Result eStringToKeyword (char pcStr[],enum KeywordCode *peKeywordCode)
+{
+	unsigned char ucLoopCounter;
+	for(ucLoopCounter=0;ucLoopCounter<3;ucLoopCounter++)
+	{
+		if (eCompareString(pcStr,asKeywordList[ucLoopCounter].cString) == EQUAL) 
+		{
+			*peKeywordCode = asKeywordList[ucLoopCounter].eCode;
+			return OK;
+		}
+	}
+	return ERROR;
+}
+
+void DecodeTokens()
+{
+	unsigned char ucLoopCounter;
+	Token* tValue;
+	for(ucLoopCounter=0;ucLoopCounter<MAX_TOKEN_NR;ucLoopCounter++)
+	{
+		tValue = &asToken[ucLoopCounter];
+		if (eStringToKeyword(tValue->uValue.pcString,&tValue->uValue.eKeyword) == OK) tValue->eType = KEYWORD;
+		else if (eHexStringToUInt(tValue->uValue.pcString,&tValue->uValue.uiNumber) == OK) tValue->eType = NUMBER;
+		else tValue->eType = STRING;
+	}
+}
+
+void TestOf_DecodeTokens()
+{
+	char Test[] = "load   0x1CD2 ala ";
+	unsigned char ucTokenCount;
+	ucTokenCount = ucFindTokensInString(Test);
+	ReplaceCharactersInString(Test,' ','\0');
+	DecodeTokens();
+}
+
 int main()
 {
-	unsigned char wynik;
-	wynik = iTestOf_ucFindTokensInString();
+	
 }
