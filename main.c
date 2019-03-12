@@ -5,8 +5,6 @@
 #define MAX_KEYWORD_STRING_LTH 10
 #define MAX_KEYWORD_NR 3
 
-unsigned char ucTokerNr;
-
 typedef enum CompResult 
 { DIFFERENT , EQUAL } CompResult;
 
@@ -183,7 +181,6 @@ void AppendUIntToString (unsigned int uiValue, char pcDestinationStr[])
 {
 	unsigned char ucLoopCounter;
 	for(ucLoopCounter=0;pcDestinationStr[ucLoopCounter]!='\0';ucLoopCounter++) {}
-	pcDestinationStr[7] = 'g';
 	UIntToHexStr(uiValue,pcDestinationStr+ucLoopCounter);
 }
 
