@@ -266,6 +266,17 @@ enum Result eStringToKeyword (char pcStr[],enum KeywordCode *peKeywordCode)
 	return ERROR;
 }
 
+int iTestOf_eStringToKeyword()
+{
+	char cTest[] = "load ";
+	enum Result eResult;
+	enum KeywordCode eKeywordCode;
+	ReplaceCharactersInString(cTest,' ','\0');
+	eResult = eStringToKeyword(cTest,&eKeywordCode);
+	if (eKeywordCode != LD) return 1;
+	else return 0;
+}
+
 void DecodeTokens()
 {
 	unsigned char ucLoopCounter;
@@ -279,16 +290,37 @@ void DecodeTokens()
 	}
 }
 
-void TestOf_DecodeTokens()
+int iTestOf_DecodeTokens()
 {
-	char Test[] = "load   0x1CD2 ala ";
+	char cTest[] = "load   0x1CD2 ala ";
 	unsigned char ucTokenCount;
-	ucTokenCount = ucFindTokensInString(Test);
-	ReplaceCharactersInString(Test,' ','\0');
+	Token* tValue;
+	ucTokenCount = ucFindTokensInString(cTest);
+	ReplaceCharactersInString(cTest,' ','\0');
+	DecodeTokens();
+	
+	tValue = &asToken[0];
+	if (tValue->eType != KEYWORD) return 1;
+	else if (tValue->uValue.eKeyword != LD) return 1;
+	tValue = &asToken[1];
+	if (tValue->eType != NUMBER) return 1;
+	else if (tValue->uValue.uiNumber != 0x1CD2) return 1;
+	tValue = &asToken[2];
+	if (tValue->eType != STRING) return 1;
+	else if (eCompareString("ala",tValue->uValue.pcString) == DIFFERENT) return 1;
+	return 0;
+}
+
+void DecodeMsg(char *pcString)
+{
+	unsigned char ucTokenCount;
+	ucTokenCount = ucFindTokensInString(pcString);
+	ReplaceCharactersInString(pcString,' ','\0');
 	DecodeTokens();
 }
 
+
 int main()
 {
-	
+	int wynik = iTestOf_DecodeTokens();
 }
