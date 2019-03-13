@@ -140,41 +140,43 @@ void UIntToHexStr(unsigned int uiValue, char pcStr[])
 	pcStr[6] = '\0';
 }
 
-int iTestOf_UIntToHexStr()
+enum Result eTestOf_UIntToHexStr()
 {
 	char pcString[7];
 	char pcTestString[7] = "0xAF19";
 	//Test 5 sprawdza czy funkcja dobrze zamienia na hex
 	UIntToHexStr(0xAF19,pcString);
-	if (eCompareString(pcString,pcTestString) == DIFFERENT) return 1;
-	return 0;
+	if (eCompareString(pcString,pcTestString) == DIFFERENT) 
+		return ERROR;
+	return OK;
 }
 
 Result eHexStringToUInt(char pcStr[],unsigned int *puiValue)
 {
-	unsigned char ucLoopCounter;
+	unsigned char ucCharCounter;
 	if(pcStr[0] != '0') return ERROR;
 	if(pcStr[1] != 'x') return ERROR;
 	if(pcStr[2] == '\0') return ERROR;
 	*puiValue = 0;
-	for(ucLoopCounter=2;ucLoopCounter<7;ucLoopCounter++)
+	for(ucCharCounter=2;ucCharCounter<7;ucCharCounter++)
 	{
-		if(pcStr[ucLoopCounter] == '\0') return OK;
+		if(pcStr[ucCharCounter] == '\0') return OK;
 	  *puiValue = *puiValue << 4;
-		if(pcStr[ucLoopCounter] >= 'A') *puiValue = *puiValue | (pcStr[ucLoopCounter] - 'A' + 10); 
-		else *puiValue = *puiValue | (pcStr[ucLoopCounter] - '0');
+		if(pcStr[ucCharCounter] >= 'A') *puiValue = *puiValue | (pcStr[ucCharCounter] - 'A' + 10); 
+		else *puiValue = *puiValue | (pcStr[ucCharCounter] - '0');
 	}
 	return OK;
 }
 
-int iTestOf_eHexStringToUInt()
+enum Result eTestOf_eHexStringToUInt()
 {
 	char liczba[] = "0xAB12";
 	unsigned int uiResult;
 	//Test 6 sprawdza czy funkcja dobrze zamienia hex na uint
 	eHexStringToUInt(liczba,&uiResult);
-	if (uiResult != 0xAB12) return 1;
-	return 0;
+	if (uiResult != 0xAB12) 
+		return ERROR;
+	return OK;
 }
 
 void AppendUIntToString (unsigned int uiValue, char pcDestinationStr[])
@@ -184,15 +186,16 @@ void AppendUIntToString (unsigned int uiValue, char pcDestinationStr[])
 	UIntToHexStr(uiValue,pcDestinationStr+ucLoopCounter);
 }
 
-int iTestOf_AppendUIntToString()
+enum Result eTestOf_AppendUIntToString()
 {
 	unsigned int uiNumber = 0xAB12;
 	char pcString[14] = "Test 7 ";
 	char pcTestString[13] = "Test 7 0xAB12";
 	//Test 7 sprawdza czy funkcja dobrze dopisuje string (z hexa) na koniec stringa
 	AppendUIntToString(uiNumber,pcString);
-	if (eCompareString(pcString,pcTestString) == DIFFERENT) return 1;
-	return 0;
+	if (eCompareString(pcString,pcTestString) == DIFFERENT) 
+		return ERROR;
+	return OK;
 }
 
 unsigned char ucFindTokensInString(char *pcString)
@@ -229,7 +232,7 @@ unsigned char ucFindTokensInString(char *pcString)
 	}
 }
 
-int iTestOf_ucFindTokensInString()
+enum Result eTestOf_ucFindTokensInString()
 {
 	char test1[] = "            ";
 	char test2[] = "Token1 Token2";
@@ -238,15 +241,18 @@ int iTestOf_ucFindTokensInString()
 	
 	wynik = ucFindTokensInString(test1);
 	if (wynik != 0) return 1;
-	if (asToken[0].uValue.pcString != '\0') return 1;
+	if (asToken[0].uValue.pcString != '\0') 
+		return ERROR;
 	
 	wynik = ucFindTokensInString(test2);
-	if (wynik != 2) return 1;
+	if (wynik != 2) 
+		return ERROR;
 
 	wynik = ucFindTokensInString(test3);
-	if (wynik != 2) return 1;
+	if (wynik != 2) 
+		return ERROR;
 	
-	return 0;
+	return OK;
 }
 
 enum Result eStringToKeyword (char pcStr[],enum KeywordCode *peKeywordCode)
@@ -263,15 +269,17 @@ enum Result eStringToKeyword (char pcStr[],enum KeywordCode *peKeywordCode)
 	return ERROR;
 }
 
-int iTestOf_eStringToKeyword()
+enum Result eTestOf_eStringToKeyword()
 {
 	char cTest[] = "load ";
 	enum Result eResult;
 	enum KeywordCode eKeywordCode;
 	ReplaceCharactersInString(cTest,' ','\0');
 	eResult = eStringToKeyword(cTest,&eKeywordCode);
-	if (eKeywordCode != LD) return 1;
-	else return 0;
+	if (eKeywordCode != LD) 
+		return ERROR;
+	else 
+		return OK;
 }
 
 void DecodeTokens()
@@ -287,7 +295,7 @@ void DecodeTokens()
 	}
 }
 
-int iTestOf_DecodeTokens()
+enum Result eTestOf_DecodeTokens()
 {
 	char cTest[] = "load   0x1CD2 ala ";
 	unsigned char ucTokenCount;
@@ -297,15 +305,21 @@ int iTestOf_DecodeTokens()
 	DecodeTokens();
 	
 	tValue = &asToken[0];
-	if (tValue->eType != KEYWORD) return 1;
-	else if (tValue->uValue.eKeyword != LD) return 1;
+	if (tValue->eType != KEYWORD) 
+		return ERROR;
+	else if (tValue->uValue.eKeyword != LD) 
+		return ERROR;
 	tValue = &asToken[1];
-	if (tValue->eType != NUMBER) return 1;
-	else if (tValue->uValue.uiNumber != 0x1CD2) return 1;
+	if (tValue->eType != NUMBER) 
+		return ERROR;
+	else if (tValue->uValue.uiNumber != 0x1CD2) 
+		return ERROR;
 	tValue = &asToken[2];
-	if (tValue->eType != STRING) return 1;
-	else if (eCompareString("ala",tValue->uValue.pcString) == DIFFERENT) return 1;
-	return 0;
+	if (tValue->eType != STRING) 
+		return ERROR;
+	else if (eCompareString("ala",tValue->uValue.pcString) == DIFFERENT) 
+		return ERROR;
+	return OK;
 }
 
 void DecodeMsg(char *pcString)
@@ -319,5 +333,6 @@ void DecodeMsg(char *pcString)
 
 int main()
 {
-	int wynik = iTestOf_DecodeTokens();
+	enum Result eWynik;
+	eWynik = eTestOf_eHexStringToUInt();
 }

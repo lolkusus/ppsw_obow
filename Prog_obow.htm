@@ -3,11 +3,11 @@
 <title>Static Call Graph - [.\Prog_obow.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Prog_obow.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Wed Mar 13 00:54:50 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.03 [Build 76]: Last Updated: Wed Mar 13 09:18:22 2019
 <BR><P>
-<H3>Maximum Stack Usage =         68 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
+<H3>Maximum Stack Usage =         24 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
-main &rArr; iTestOf_DecodeTokens &rArr; DecodeTokens &rArr; eStringToKeyword
+main &rArr; eTestOf_eHexStringToUInt
 <P>
 <H3>
 Functions with no stack information
@@ -189,11 +189,11 @@ Global Symbols
 <BR><BR>[Calls]<UL><LI><a href="#[1b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CopyString
 </UL>
 
-<P><STRONG><a name="[1d]"></a>eCompareString</STRONG> (ARM, 68 bytes, Stack size 0 bytes, main.o(.text))
-<BR><BR>[Called By]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_DecodeTokens
+<P><STRONG><a name="[1d]"></a>eCompareString</STRONG> (ARM, 68 bytes, Stack size 0 bytes, main.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_DecodeTokens
 <LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eStringToKeyword
-<LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_AppendUIntToString
-<LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_UIntToHexStr
+<LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_AppendUIntToString
+<LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_UIntToHexStr
 <LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_ReplaceCharactersInString
 <LI><a href="#[1f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_AppendString
 <LI><a href="#[1c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_eCompareString
@@ -214,10 +214,10 @@ Global Symbols
 <LI><a href="#[1d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eCompareString
 </UL>
 
-<P><STRONG><a name="[21]"></a>ReplaceCharactersInString</STRONG> (ARM, 92 bytes, Stack size 0 bytes, main.o(.text))
+<P><STRONG><a name="[21]"></a>ReplaceCharactersInString</STRONG> (ARM, 92 bytes, Stack size 0 bytes, main.o(.text), UNUSED)
 <BR><BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DecodeMsg
-<LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_DecodeTokens
-<LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_eStringToKeyword
+<LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_DecodeTokens
+<LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_eStringToKeyword
 <LI><a href="#[20]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_ReplaceCharactersInString
 </UL>
 
@@ -228,81 +228,75 @@ Global Symbols
 
 <P><STRONG><a name="[23]"></a>UIntToHexStr</STRONG> (ARM, 112 bytes, Stack size 4 bytes, main.o(.text), UNUSED)
 <BR><BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendUIntToString
-<LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_UIntToHexStr
+<LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_UIntToHexStr
 </UL>
 
-<P><STRONG><a name="[22]"></a>iTestOf_UIntToHexStr</STRONG> (ARM, 72 bytes, Stack size 20 bytes, main.o(.text), UNUSED)
+<P><STRONG><a name="[22]"></a>eTestOf_UIntToHexStr</STRONG> (ARM, 72 bytes, Stack size 20 bytes, main.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UIntToHexStr
 <LI><a href="#[1d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eCompareString
 </UL>
 
 <P><STRONG><a name="[25]"></a>eHexStringToUInt</STRONG> (ARM, 236 bytes, Stack size 0 bytes, main.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DecodeTokens
-<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_eHexStringToUInt
+<LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_eHexStringToUInt
 </UL>
 
-<P><STRONG><a name="[24]"></a>iTestOf_eHexStringToUInt</STRONG> (ARM, 64 bytes, Stack size 16 bytes, main.o(.text), UNUSED)
-<BR><BR>[Calls]<UL><LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eHexStringToUInt
+<P><STRONG><a name="[24]"></a>eTestOf_eHexStringToUInt</STRONG> (ARM, 64 bytes, Stack size 16 bytes, main.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = eTestOf_eHexStringToUInt
+</UL>
+<BR>[Calls]<UL><LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eHexStringToUInt
+</UL>
+<BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[26]"></a>AppendUIntToString</STRONG> (ARM, 60 bytes, Stack size 16 bytes, main.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[23]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UIntToHexStr
 </UL>
-<BR>[Called By]<UL><LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_AppendUIntToString
+<BR>[Called By]<UL><LI><a href="#[27]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_AppendUIntToString
 </UL>
 
-<P><STRONG><a name="[27]"></a>iTestOf_AppendUIntToString</STRONG> (ARM, 112 bytes, Stack size 40 bytes, main.o(.text), UNUSED)
+<P><STRONG><a name="[27]"></a>eTestOf_AppendUIntToString</STRONG> (ARM, 112 bytes, Stack size 40 bytes, main.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AppendUIntToString
 <LI><a href="#[1d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eCompareString
 </UL>
 
-<P><STRONG><a name="[2a]"></a>ucFindTokensInString</STRONG> (ARM, 160 bytes, Stack size 8 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = ucFindTokensInString
-</UL>
-<BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DecodeMsg
-<LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_DecodeTokens
-<LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_ucFindTokensInString
+<P><STRONG><a name="[2a]"></a>ucFindTokensInString</STRONG> (ARM, 160 bytes, Stack size 8 bytes, main.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DecodeMsg
+<LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_DecodeTokens
+<LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_ucFindTokensInString
 </UL>
 
-<P><STRONG><a name="[28]"></a>iTestOf_ucFindTokensInString</STRONG> (ARM, 292 bytes, Stack size 64 bytes, main.o(.text), UNUSED)
+<P><STRONG><a name="[28]"></a>eTestOf_ucFindTokensInString</STRONG> (ARM, 292 bytes, Stack size 64 bytes, main.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 <LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ucFindTokensInString
 </UL>
 
-<P><STRONG><a name="[2b]"></a>eStringToKeyword</STRONG> (ARM, 104 bytes, Stack size 16 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = eStringToKeyword
-</UL>
-<BR>[Calls]<UL><LI><a href="#[1d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eCompareString
+<P><STRONG><a name="[2b]"></a>eStringToKeyword</STRONG> (ARM, 104 bytes, Stack size 16 bytes, main.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[1d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eCompareString
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DecodeTokens
-<LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_eStringToKeyword
+<LI><a href="#[2c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_eStringToKeyword
 </UL>
 
-<P><STRONG><a name="[2c]"></a>iTestOf_eStringToKeyword</STRONG> (ARM, 80 bytes, Stack size 20 bytes, main.o(.text), UNUSED)
+<P><STRONG><a name="[2c]"></a>eTestOf_eStringToKeyword</STRONG> (ARM, 80 bytes, Stack size 20 bytes, main.o(.text), UNUSED)
 <BR><BR>[Calls]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eStringToKeyword
 <LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReplaceCharactersInString
 </UL>
 
-<P><STRONG><a name="[2d]"></a>DecodeTokens</STRONG> (ARM, 116 bytes, Stack size 12 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = DecodeTokens &rArr; eStringToKeyword
-</UL>
-<BR>[Calls]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eStringToKeyword
+<P><STRONG><a name="[2d]"></a>DecodeTokens</STRONG> (ARM, 116 bytes, Stack size 12 bytes, main.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[2b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eStringToKeyword
 <LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eHexStringToUInt
 </UL>
 <BR>[Called By]<UL><LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DecodeMsg
-<LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_DecodeTokens
+<LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_DecodeTokens
 </UL>
 
-<P><STRONG><a name="[2e]"></a>iTestOf_DecodeTokens</STRONG> (ARM, 216 bytes, Stack size 32 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 60<LI>Call Chain = iTestOf_DecodeTokens &rArr; DecodeTokens &rArr; eStringToKeyword
-</UL>
-<BR>[Calls]<UL><LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
+<P><STRONG><a name="[2e]"></a>eTestOf_DecodeTokens</STRONG> (ARM, 216 bytes, Stack size 32 bytes, main.o(.text), UNUSED)
+<BR><BR>[Calls]<UL><LI><a href="#[29]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_memcpy4
 <LI><a href="#[2d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DecodeTokens
 <LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ucFindTokensInString
 <LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ReplaceCharactersInString
 <LI><a href="#[1d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eCompareString
-</UL>
-<BR>[Called By]<UL><LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[2f]"></a>DecodeMsg</STRONG> (ARM, 48 bytes, Stack size 12 bytes, main.o(.text), UNUSED)
@@ -312,17 +306,15 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[a]"></a>main</STRONG> (ARM, 68 bytes, Stack size 8 bytes, main.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = main &rArr; iTestOf_DecodeTokens &rArr; DecodeTokens &rArr; eStringToKeyword
+<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = main &rArr; eTestOf_eHexStringToUInt
 </UL>
-<BR>[Calls]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_DecodeTokens
+<BR>[Calls]<UL><LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_eHexStringToUInt
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> rtentry2.o(.ARM.Collect$$rtentry$$0000000D)
 </UL>
-<P><STRONG><a name="[29]"></a>__aeabi_memcpy4</STRONG> (ARM, 0 bytes, Stack size 8 bytes, rt_memcpy_w.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = __aeabi_memcpy4
-</UL>
-<BR>[Called By]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_DecodeTokens
-<LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;iTestOf_ucFindTokensInString
+<P><STRONG><a name="[29]"></a>__aeabi_memcpy4</STRONG> (ARM, 0 bytes, Stack size 8 bytes, rt_memcpy_w.o(.text), UNUSED)
+<BR><BR>[Called By]<UL><LI><a href="#[2e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_DecodeTokens
+<LI><a href="#[28]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;eTestOf_ucFindTokensInString
 </UL>
 
 <P><STRONG><a name="[54]"></a>__aeabi_memcpy8</STRONG> (ARM, 0 bytes, Stack size 8 bytes, rt_memcpy_w.o(.text), UNUSED)
