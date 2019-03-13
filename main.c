@@ -47,95 +47,102 @@ struct Keyword asKeywordList[MAX_KEYWORD_NR]=
 
 void CopyString(char pcSource[], char pcDestination[])
 {
-	unsigned char ucLoopCounter;
-	for(ucLoopCounter=0;pcSource[ucLoopCounter]!='\0';ucLoopCounter++)
+	unsigned char ucCharCounter;
+	for(ucCharCounter=0;pcSource[ucCharCounter]!='\0';ucCharCounter++)
 	{
-		pcDestination[ucLoopCounter] = pcSource[ucLoopCounter];
+		pcDestination[ucCharCounter] = pcSource[ucCharCounter];
 	}
-	pcDestination[ucLoopCounter] = '\0';
+	pcDestination[ucCharCounter] = '\0';
 }
 
-int iTestOf_CopyString()
+enum Result TestOf_CopyString()
 {
-	unsigned char ucLoopCounter;
+	unsigned char ucCharCounter;
 	char pcTestSource[] = "Test 1";
 	char pcTestDest[7];
 	//Test 1 sprawdza czy funkcja dobrze kopiuje stringi
 	CopyString(pcTestSource,pcTestDest);
-	for(ucLoopCounter=0;ucLoopCounter<8;ucLoopCounter++)
+	for(ucCharCounter=0;ucCharCounter<8;ucCharCounter++)
 	{
-		if (pcTestDest[ucLoopCounter] != pcTestSource[ucLoopCounter]) return 1;
+		if (pcTestDest[ucCharCounter] != pcTestSource[ucCharCounter]) 
+			return ERROR;
 	}
-	return 0;
+	return OK;
 }
 
-CompResult eCompareString(char pcStr1[], char pcStr2[])
+enum CompResult eCompareString(char pcStr1[], char pcStr2[])
 {
-	unsigned char ucLoopCounter;
-	for(ucLoopCounter=0;pcStr1[ucLoopCounter] != '\0';ucLoopCounter++)
+	unsigned char ucCharCounter;
+	for(ucCharCounter=0;pcStr1[ucCharCounter] != '\0';ucCharCounter++)
 	{
-		if (pcStr1[ucLoopCounter] != pcStr2[ucLoopCounter]) return DIFFERENT;
+		if (pcStr1[ucCharCounter] != pcStr2[ucCharCounter]) return DIFFERENT;
 	}
 	return EQUAL;
 }
 
-int iTestOf_eCompareString()
+enum Result TestOf_eCompareString()
 {
 	char pcTest1[] = "Test 1";
 	char pcTest2[] = "Tescik 2";
 	//Test 2 sprawdza czy funkcja dobrze porownuje stringi
-	if (eCompareString(pcTest1,pcTest1) == DIFFERENT) return 1;
-	if (eCompareString(pcTest1,pcTest2) == EQUAL) return 1;
-	return 0;
+	if (eCompareString(pcTest1,pcTest1) == DIFFERENT) 
+		return ERROR;
+	if (eCompareString(pcTest1,pcTest2) == EQUAL) 
+		return ERROR;
+	return OK;
 }
 void AppendString (char pcSourceStr[],char pcDestinationStr[])
 {
-	unsigned char ucLoopCounter;
-	for(ucLoopCounter=0;pcDestinationStr[ucLoopCounter]!='\0';ucLoopCounter++) {}
-	CopyString(pcSourceStr,pcDestinationStr+ucLoopCounter);
+	unsigned char ucEndPointer;
+	for(ucEndPointer=0;pcDestinationStr[ucEndPointer]!='\0';ucEndPointer++) {}
+	CopyString(pcSourceStr,pcDestinationStr+ucEndPointer);
 }
 
-int iTestOf_AppendString()
+enum Result TestOf_AppendString()
 {
 	char pcTestDest[] = "Test";
 	char pcTestSource[] = " 3";
 	char pcTestWynik[] = "Test 3";
 	//Test 3 sprawdza czy funkcja dobrze dopisuje stringi
 	AppendString(pcTestSource,pcTestDest);
-	if (eCompareString(pcTestDest,pcTestWynik) == DIFFERENT) return 1;
-	return 0;
+	if (eCompareString(pcTestDest,pcTestWynik) == DIFFERENT) 
+		return ERROR;
+	return OK;
 }
 
 void ReplaceCharactersInString(char pcString[],char cOldChar,char cNewChar)
 {
-	unsigned char ucLoopCounter;
-	for(ucLoopCounter=0;pcString[ucLoopCounter]!='\0';ucLoopCounter++)
+	unsigned char ucCharCounter;
+	for(ucCharCounter=0;pcString[ucCharCounter]!='\0';ucCharCounter++)
 	{
-		if(pcString[ucLoopCounter] == cOldChar) pcString[ucLoopCounter] = cNewChar;
+		if(pcString[ucCharCounter] == cOldChar) pcString[ucCharCounter] = cNewChar;
 	}
 }
 
-int iTestOf_ReplaceCharactersInString()
+enum Result TestOf_ReplaceCharactersInString()
 {
 	char pcTestString[] = "Testowy String";
 	char pcTestWynik[] = "Tesxowy String";
 	//Test 4 sprawdza czy funkcja dobrze zamienia znaki
 	ReplaceCharactersInString(pcTestString,'t','x');
-	if (eCompareString(pcTestString,pcTestWynik) == DIFFERENT) return 1;
-	return 0;
+	if (eCompareString(pcTestString,pcTestWynik) == DIFFERENT) 
+		return ERROR;
+	return OK;
 }
 
 void UIntToHexStr(unsigned int uiValue, char pcStr[])
 {
-	unsigned char ucLoopCounter;
-	unsigned char ucCurrentQuad;
+	unsigned char ucNibbleCounter;
+	unsigned char ucCurrentNibble;
 	pcStr[0] = '0';
 	pcStr[1] = 'x';
-	for(ucLoopCounter=0;ucLoopCounter<4;ucLoopCounter++)
+	for(ucNibbleCounter=0;ucNibbleCounter<4;ucNibbleCounter++)
 	{
-		ucCurrentQuad = ((uiValue >> ucLoopCounter*4) & HEX_bm);
-		if(ucCurrentQuad>9) pcStr[5-ucLoopCounter] = ucCurrentQuad - 10 + 'A';
-		else pcStr[5-ucLoopCounter] = ucCurrentQuad + '0';
+		ucCurrentNibble = ((uiValue >> ucNibbleCounter*4) & HEX_bm);
+		if(ucCurrentNibble>9) 
+			pcStr[5-ucNibbleCounter] = ucCurrentNibble - 10 + 'A';
+		else 
+			pcStr[5-ucNibbleCounter] = ucCurrentNibble + '0';
 	}
 	pcStr[6] = '\0';
 }
@@ -151,23 +158,24 @@ enum Result eTestOf_UIntToHexStr()
 	return OK;
 }
 
-Result eHexStringToUInt(char pcStr[],unsigned int *puiValue)
+enum Result eHexStringToUInt(char pcStr[],unsigned int *puiValue)
 {
 	unsigned char ucCharCounter;
-	if(pcStr[0] != '0') return ERROR;
-	if(pcStr[1] != 'x') return ERROR;
-	if(pcStr[2] == '\0') return ERROR;
+	if((pcStr[0] != '0') | (pcStr[1] != 'x') | (pcStr[2] == '\0'))
+		return ERROR;
 	*puiValue = 0;
 	for(ucCharCounter=2;ucCharCounter<7;ucCharCounter++)
 	{
-		if(pcStr[ucCharCounter] == '\0') return OK;
+		if(pcStr[ucCharCounter] == '\0') 
+			return OK;
 	  *puiValue = *puiValue << 4;
-		if(pcStr[ucCharCounter] >= 'A') *puiValue = *puiValue | (pcStr[ucCharCounter] - 'A' + 10); 
-		else *puiValue = *puiValue | (pcStr[ucCharCounter] - '0');
+		if(pcStr[ucCharCounter] >= 'A') 
+			*puiValue = *puiValue | (pcStr[ucCharCounter] - 'A' + 10); 
+		else 
+			*puiValue = *puiValue | (pcStr[ucCharCounter] - '0');
 	}
 	return OK;
 }
-
 enum Result eTestOf_eHexStringToUInt()
 {
 	char liczba[] = "0xAB12";
@@ -181,9 +189,9 @@ enum Result eTestOf_eHexStringToUInt()
 
 void AppendUIntToString (unsigned int uiValue, char pcDestinationStr[])
 {
-	unsigned char ucLoopCounter;
-	for(ucLoopCounter=0;pcDestinationStr[ucLoopCounter]!='\0';ucLoopCounter++) {}
-	UIntToHexStr(uiValue,pcDestinationStr+ucLoopCounter);
+	unsigned char ucEndPointer;
+	for(ucEndPointer=0;pcDestinationStr[ucEndPointer]!='\0';ucEndPointer++) {}
+	UIntToHexStr(uiValue,pcDestinationStr+ucEndPointer);
 }
 
 enum Result eTestOf_AppendUIntToString()
@@ -200,33 +208,37 @@ enum Result eTestOf_AppendUIntToString()
 
 unsigned char ucFindTokensInString(char *pcString)
 {
-	unsigned char ucLoopCounter;
+	unsigned char ucTokenPointer;
 	unsigned char ucDelimiterCounter;
 	char cCurrentChar;
 	enum State {TOKEN, DELIMITER};
 	enum State eState = DELIMITER;
 	ucDelimiterCounter = 0;
 	
-	for(ucLoopCounter=0;;ucLoopCounter++)
+	for(ucTokenPointer=0;;ucTokenPointer++)
 	{
-		cCurrentChar = pcString[ucLoopCounter];
+		cCurrentChar = pcString[ucTokenPointer];
 		switch(eState)
 		{
 			case DELIMITER:
-				if(cCurrentChar == '\0') return ucDelimiterCounter;
+				if(cCurrentChar == '\0') 
+					return ucDelimiterCounter;
 				else if(cCurrentChar == ' ') {}
 				else 
 				{
 					eState = TOKEN;
-					asToken[ucDelimiterCounter].uValue.pcString = pcString+ucLoopCounter;
+					asToken[ucDelimiterCounter].uValue.pcString = pcString+ucTokenPointer;
 					ucDelimiterCounter++;
 				}
 				break;
 			case TOKEN:
-				if(cCurrentChar == '\0') return ucDelimiterCounter;
-				else if(ucDelimiterCounter == MAX_TOKEN_NR) return ucDelimiterCounter;
+				if(cCurrentChar == '\0') 
+					return ucDelimiterCounter;
+				else if(ucDelimiterCounter == MAX_TOKEN_NR) 
+					return ucDelimiterCounter;
 				else if(cCurrentChar != ' ') {}
-				else eState = DELIMITER;
+				else 
+					eState = DELIMITER;
 				break;
 		}
 	}
@@ -240,29 +252,27 @@ enum Result eTestOf_ucFindTokensInString()
 	unsigned char wynik;
 	
 	wynik = ucFindTokensInString(test1);
-	if (wynik != 0) return 1;
+	if (wynik != 0) 
+		return ERROR;
 	if (asToken[0].uValue.pcString != '\0') 
 		return ERROR;
-	
 	wynik = ucFindTokensInString(test2);
 	if (wynik != 2) 
 		return ERROR;
-
 	wynik = ucFindTokensInString(test3);
 	if (wynik != 2) 
 		return ERROR;
-	
 	return OK;
 }
 
 enum Result eStringToKeyword (char pcStr[],enum KeywordCode *peKeywordCode)
 {
-	unsigned char ucLoopCounter;
-	for(ucLoopCounter=0;ucLoopCounter<3;ucLoopCounter++)
+	unsigned char ucTokenCounter;
+	for(ucTokenCounter=0;ucTokenCounter<MAX_TOKEN_NR;ucTokenCounter++)
 	{
-		if (eCompareString(pcStr,asKeywordList[ucLoopCounter].cString) == EQUAL) 
+		if (eCompareString(pcStr,asKeywordList[ucTokenCounter].cString) == EQUAL) 
 		{
-			*peKeywordCode = asKeywordList[ucLoopCounter].eCode;
+			*peKeywordCode = asKeywordList[ucTokenCounter].eCode;
 			return OK;
 		}
 	}
@@ -272,10 +282,9 @@ enum Result eStringToKeyword (char pcStr[],enum KeywordCode *peKeywordCode)
 enum Result eTestOf_eStringToKeyword()
 {
 	char cTest[] = "load ";
-	enum Result eResult;
 	enum KeywordCode eKeywordCode;
 	ReplaceCharactersInString(cTest,' ','\0');
-	eResult = eStringToKeyword(cTest,&eKeywordCode);
+	eStringToKeyword(cTest,&eKeywordCode);
 	if (eKeywordCode != LD) 
 		return ERROR;
 	else 
@@ -284,11 +293,11 @@ enum Result eTestOf_eStringToKeyword()
 
 void DecodeTokens()
 {
-	unsigned char ucLoopCounter;
+	unsigned char ucTokenCounter;
 	Token* tValue;
-	for(ucLoopCounter=0;ucLoopCounter<MAX_TOKEN_NR;ucLoopCounter++)
+	for(ucTokenCounter=0;ucTokenCounter<MAX_TOKEN_NR;ucTokenCounter++)
 	{
-		tValue = &asToken[ucLoopCounter];
+		tValue = &asToken[ucTokenCounter];
 		if (eStringToKeyword(tValue->uValue.pcString,&tValue->uValue.eKeyword) == OK) tValue->eType = KEYWORD;
 		else if (eHexStringToUInt(tValue->uValue.pcString,&tValue->uValue.uiNumber) == OK) tValue->eType = NUMBER;
 		else tValue->eType = STRING;
@@ -298,9 +307,8 @@ void DecodeTokens()
 enum Result eTestOf_DecodeTokens()
 {
 	char cTest[] = "load   0x1CD2 ala ";
-	unsigned char ucTokenCount;
 	Token* tValue;
-	ucTokenCount = ucFindTokensInString(cTest);
+	ucFindTokensInString(cTest);
 	ReplaceCharactersInString(cTest,' ','\0');
 	DecodeTokens();
 	
@@ -324,8 +332,7 @@ enum Result eTestOf_DecodeTokens()
 
 void DecodeMsg(char *pcString)
 {
-	unsigned char ucTokenCount;
-	ucTokenCount = ucFindTokensInString(pcString);
+	ucFindTokensInString(pcString);
 	ReplaceCharactersInString(pcString,' ','\0');
 	DecodeTokens();
 }
@@ -333,6 +340,5 @@ void DecodeMsg(char *pcString)
 
 int main()
 {
-	enum Result eWynik;
-	eWynik = eTestOf_eHexStringToUInt();
+	///
 }
